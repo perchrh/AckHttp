@@ -102,27 +102,19 @@ class AckHttp {
     }
 
     // example usage
-    func dummyAsyncServiceCall(email: String, password: String, completion: (success:Bool, message:String?) -> ()) {
+    func dummyAsyncServiceCall(email: String, password: String, completion: (success:Bool, data:NSData?, error:AnyObject?) -> ()) {
         let queryParameters = ["email": email, "password": password]
         let pathComponents = ["auth", "local"]
-        let baseUrl = ConaxConnectSettings.CONNECT_PORTAL_BASE_URL
+        let baseUrl = NSURL(string: "http://api.mydomain.com:8074/")!
 
         let url = createUrl(baseUrl, pathComponents: pathComponents, queryParams: queryParameters)
         let request = NSMutableURLRequest(URL: url)
-        postAsync(request) {
-            (success, data, error) -> () in
-            dispatch_async(dispatch_get_main_queue(), {
-                () -> Void in
-                if success {
-                    completion(success: true, message: nil)
-                } else {
-                    if let error = error {
-                        completion(success: false, message: "\(error)")
-                    } else {
-                        completion(success: false, message: "there was an error")
-                    }
-                }
-            })
+        postAsync(request) { (success, data, error) -> Void in
+            if success {
+                completion(success: true, data: data, error: error)
+            } else {
+                completion(success: false, data: data, error: error)
+            }
         }
     }
 
