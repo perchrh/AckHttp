@@ -1,6 +1,6 @@
 # AckHttp
 
-Simplifies HTTP requests in Swift 2.
+Simplifies HTTP requests in Swift 3.
 
 AckHttp simple wrapper around the Swift APIs on iOS to simplify making synchronous and asyncronous HTTP request.
 
